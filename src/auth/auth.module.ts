@@ -6,9 +6,12 @@ import { JwtStrategy } from './jwt.strategy';
 import {MongooseModule} from '@nestjs/mongoose';
 import {User, UserSchema} from '../schemas/user.schema';
 import { UsersModule } from 'src/users/users.module';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
     imports: [
+      UsersModule,
+      PassportModule,
     JwtModule.register({
       secret: 'mySecretKey123',   // 🔑 keep safe (use env in real apps)
       signOptions: { expiresIn: '1h' },
