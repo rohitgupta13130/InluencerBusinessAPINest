@@ -8,7 +8,8 @@ import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-     MongooseModule.forRoot('mongodb://127.0.0.1:27017/InfluencerApp'),
+    MongooseModule.forRoot('mongodb+srv://technotopsolutions_db_user:kT5vjYp7uJX1rvG9@cluster0.ibqc8gx.mongodb.net/InfluencerApp?retryWrites=true&w=majority&appName=Cluster0'),
+    //  MongooseModule.forRoot('mongodb://127.0.0.1:27017/InfluencerApp'),
     InfluencerModule,
     AuthModule],
   controllers: [AppController],

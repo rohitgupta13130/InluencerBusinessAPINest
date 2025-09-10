@@ -18,6 +18,7 @@ export class InfluencerService {
 
    async create(influencer: Influencer): Promise<Influencer> {
     const created = new this.infuencerModel(influencer);
+    console.log('Service has been hit')
     return created.save();
   }
 
