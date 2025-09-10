@@ -4,7 +4,6 @@ import { AppService } from './app.service';
 import { InfluencerModule } from './influencer/influencer.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
-import { GuidController } from './guid/guid.controller';
 import { GuidModule } from './guid/guid.module';
 import { UsersModule } from './users/users.module';
 
@@ -17,7 +16,7 @@ import { UsersModule } from './users/users.module';
     AuthModule,
     GuidModule,
     UsersModule],
-  controllers: [AppController, GuidController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}

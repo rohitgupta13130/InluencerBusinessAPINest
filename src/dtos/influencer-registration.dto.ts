@@ -5,14 +5,14 @@ export class InfluencerRegistrationDto {
   @IsString()
   fullName: string;
 
-  @IsEmail()
+  @IsEmail({}, { message: 'Please enter a valid email address' })
   email: string;
 
   @IsString()
   username: string;
 
   @IsString()
-  @MinLength(6)
+  @MinLength(6, { message: 'Password must be at least 6 characters long' })
   passwordHash: string;
 
   @IsOptional()
@@ -28,8 +28,8 @@ export class InfluencerRegistrationDto {
   category?: string;
 
   @IsOptional()
-  @Type(() => Number)   // 👈 convert to number first
-  @IsNumber()
+  @Type(() => Number) // ✅ converts string → number before validation
+  @IsNumber({}, { message: 'Followers count must be a number' })
   followersCount?: number;
 
   @IsOptional()
@@ -38,5 +38,5 @@ export class InfluencerRegistrationDto {
 
   @IsOptional()
   @IsString()
-  socialhandle?: string;
+  socialHandle?: string;
 }
