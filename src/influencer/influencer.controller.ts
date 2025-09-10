@@ -1,6 +1,7 @@
 import { Controller,Get, Post, Body  } from '@nestjs/common';
 import { InfluencerService } from './influencer.service'; 
 import { Influencer } from 'src/schemas/influencer.schema';
+import { InfluencerRegistrationDto } from '../dtos/influencer-registration.dto';
 
 @Controller('influencer')
 export class InfluencerController {
@@ -17,6 +18,11 @@ export class InfluencerController {
         console.log('database is hit');
         console.log(Influencer);
         return this.influencerService.create(influencer as Influencer);
+    }
+
+     @Post('register')
+    async register(@Body() dto: InfluencerRegistrationDto): Promise<Influencer> {
+       return this.influencerService.register(dto);
     }
 
 }
