@@ -23,17 +23,31 @@ export class InfluencerService {
     return created.save();
   }
 
-    async register(dto: InfluencerRegistrationDto): Promise<Influencer> {
-    // hash password before saving
-    const hashedPassword = await bcrypt.hash(dto.passwordHash, 10);
-
-    const newInfluencer = new this.infuencerModel({
-      ...dto,
-      passwordHash: hashedPassword,
-    });
-
-    return newInfluencer.save();
+  async register(dto: InfluencerRegistrationDto): Promise<Influencer> {
+  // Make sure frontend sends passwordHash
+  if (!dto.passwordHash) {
+    throw new Error('Password is required');
   }
+
+  // Hash the incoming password (even though it's named "passwordHash" in frontend)
+  const hashedPassword = await bcrypt.hash(dto.passwordHash, 10);
+
+  const newInfluencer = new this.infuencerModel({
+    fullName: dto.fullName,
+    email: dto.email,
+    username: dto.username,
+    passwordHash: hashedPassword,  // 👈 final hash stored in DB
+    bio: dto.bio,
+    profilePicUrl: dto.profilePicUrl,
+    category: dto.category,
+    followersCount: dto.followersCount,
+    platform: dto.platform,
+    socialhandle: dto.socialhandle,
+  });
+
+  return newInfluencer.save();
+}
+
 
 }
 

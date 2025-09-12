@@ -6,7 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 import { GuidController } from './guid/guid.controller';
 import { GuidModule } from './guid/guid.module';
-import { UsersModule } from './users/users.module';
+
 
 
 @Module({
@@ -14,8 +14,7 @@ import { UsersModule } from './users/users.module';
      MongooseModule.forRoot('mongodb://127.0.0.1:27017/InfluencerApp'),
     InfluencerModule,
     AuthModule,
-    GuidModule,
-    UsersModule],
+    GuidModule],
   controllers: [AppController, GuidController],
   providers: [AppService],
 })

@@ -1,43 +1,36 @@
-// src/auth/auth.service.ts
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
-import { UsersService } from 'src/users/users.service';
+import { Influencer, InfluencerDocument } from '../schemas/influencer.schema';
+
 
 @Injectable()
 export class AuthService {
   constructor(
     private jwtService: JwtService,
-    private usersService: UsersService,
+    @InjectModel(Influencer.name) private influencerModel: Model<InfluencerDocument>,
   ) {}
 
-  async register(username: string, password: string) {
-    const existingUser = await this.usersService.findByUsername(username);
-    if (existingUser) {
-      throw new UnauthorizedException('Username already exists');
-    }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    return this.usersService.createUser(username, hashedPassword);
-  }
-
-  async validateUser(username: string, pass: string): Promise<any> {
-    const user = await this.usersService.findByUsername(username);
+  async validateUser(username: string, password: string): Promise<any> {
+    const user = await this.influencerModel.findOne({ username }).exec();
     if (!user) {
       throw new UnauthorizedException('User not found');
     }
 
-    const isMatch = await bcrypt.compare(pass, user.password);
+    const isMatch = await bcrypt.compare(password, user.passwordHash);
     if (!isMatch) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const { password, ...result } = user.toObject();
+    const { passwordHash: _, ...result } = user.toObject();
     return result;
   }
 
   async login(user: any) {
-    const payload = { username: user.username, sub: user._id }; // use _id
+    const payload = { username: user.username, sub: user._id };
     return {
       access_token: this.jwtService.sign(payload),
     };

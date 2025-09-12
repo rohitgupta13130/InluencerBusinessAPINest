@@ -4,20 +4,20 @@ import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
 import {MongooseModule} from '@nestjs/mongoose';
-import {User, UserSchema} from '../schemas/user.schema';
-import { UsersModule } from 'src/users/users.module';
 import { PassportModule } from '@nestjs/passport';
+import { InfluencerModule } from 'src/influencer/influencer.module';
+import { Influencer, InfluencerSchema } from 'src/schemas/influencer.schema';
 
 @Module({
     imports: [
-      UsersModule,
+      InfluencerModule,
       PassportModule,
     JwtModule.register({
       secret: 'mySecretKey123',   // 🔑 keep safe (use env in real apps)
       signOptions: { expiresIn: '1h' },
     }),
-    UsersModule,
-    MongooseModule.forFeature([{name: User.name, schema: UserSchema}]),
+    InfluencerModule,
+    MongooseModule.forFeature([{name: Influencer.name, schema: InfluencerSchema}]),
   ],
   providers: [AuthService,JwtStrategy],
   controllers: [AuthController],
