@@ -15,6 +15,8 @@ export class InfluencerController {
 
     @Post()
     async create(@Body() influencer: Partial<Influencer>) : Promise<Influencer>{
+        console.log('database is hit');
+        console.log(Influencer);
         return this.influencerService.create(influencer as Influencer);
     }
 
